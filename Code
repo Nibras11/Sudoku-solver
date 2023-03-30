@@ -1,0 +1,64 @@
+class Solution
+{
+    public void solveSudoku(char[][] board)
+    {
+        check(board,0,0);
+    }
+    boolean check(char[][]grid,int r,int c)
+    {
+        if(r==grid.length)
+           return true;
+        int rn=0,cn=0;
+        if(c!=grid.length-1)
+        {
+            rn=r;
+            cn=c+1;
+        }
+        else
+        {
+            rn=r+1;
+            cn=0;
+        }
+        if(grid[r][c]!='.')
+        {
+            if(check(grid,rn,cn))
+               return true;
+        }
+        else
+        {
+            for(int i=1;i<10;i++)
+            {
+                if(isValid(grid,r,c,i))
+                {
+                    grid[r][c]= (char)(i+'0');
+                    if(check(grid,rn,cn))
+                       return true;
+                    else
+                        grid[r][c]='.';
+                }
+            }
+        }
+        return false;
+    }
+    boolean isValid(char[][] grid,int r, int c, int n)
+    {
+        for(int i=0;i<grid.length;i++)
+        {
+            if(grid[i][c]==(char)(n+'0'))
+               return false;
+            if(grid[r][i]==(char)(n+'0'))
+               return false;
+        }
+        int rb=(r/3)*3;
+        int cb=(c/3)*3;
+        for(int i=rb;i<=rb+2;i++)
+        {
+            for(int j=cb;j<=cb+2;j++)
+            {
+                if(grid[i][j]==(char)(n+'0'))
+                   return false;
+            }
+        }
+        return true;
+    }
+}
